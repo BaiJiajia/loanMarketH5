@@ -26,14 +26,19 @@
                 </div>
             </div>
         </div>
-        <div class="btn-box"><div class="applyBtn">立即申请</div></div>
-        
+        <div class="btn-box"><div class="applyBtn" @click="handleLogin">立即申请</div></div>
+        <login-dialog :loginShow="loginShow"></login-dialog>
     </main>
 </template>
 <script>
+import LoginDialog from '@/components/LoginDialog.vue'
 export default {
+    components: {
+    LoginDialog
+  },
     data() {
     return {
+        loginShow:false,
         applyList:[
             {
                 name:'芝麻信用',
@@ -66,7 +71,14 @@ export default {
         ]
     };
   },
-  methods : {},
+  methods : {
+      handleLogin() {
+          this.loginShow = true;
+      }
+  },
+  created(){
+    //   var loanId=this.$route.query.loanId;
+  }
     
 }
 </script>
@@ -162,7 +174,7 @@ export default {
                 display: inline-block;
                 width:70%;
                 background:rgba(216,216,216,1) linear-gradient(360deg,rgba(255,152,63,1) 0%,rgba(255,194,142,1) 100%);
-                border-radius:10px;
+                border-radius:5px;
                 font-weight:400;
                 color:rgba(255,255,255,1);
             }

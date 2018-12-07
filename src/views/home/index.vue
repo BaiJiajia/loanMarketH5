@@ -128,7 +128,7 @@ export default {
             display: flex;
             flex-direction:row;
             padding:10px 0 !important;
-            font-size: 0.36rem;
+            font-size: 0.32rem;
             justify-content: center;
             .weui-grid__icon{
                 margin: 0;

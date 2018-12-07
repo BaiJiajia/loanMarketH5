@@ -29,8 +29,8 @@ export default {
         ['item'],
     methods: {
         // 跳转至详情页
-        toDetail(itemId) {
-            console.log(itemId)
+        toDetail(loanId) {
+            this.$router.push({path: '/loanDetail',query:{loanId}},);
         }
     }
 

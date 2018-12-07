@@ -1,26 +1,21 @@
 <template>
     <main>
         <div class="group">
-            <div class="info-header">
-                <img src="@/assets/img/i-grid.png" alt="">
-                <div class="user-name">您还没有登录呢</div>
-            </div>
+            <div class="loan-rule" @click="toMessageCenter"><span>关于我们</span><div class="i-arrow"><x-icon type="ios-arrow-right" size="20"></x-icon></div></div>
+            <div class="loan-rule" @click="toHelp"><span>还款帮助</span><div class="i-arrow"><x-switch v-model="value1"></x-switch></div></div>
+            <div class="loan-rule" @click="toFeedBack"><span>意见反馈</span><div class="i-arrow"><x-icon type="ios-arrow-right" size="20"></x-icon></div></div>
         </div>
-        <div class="group">
-            <div class="loan-rule" @click="toMessageCenter"><img src="@/assets/img/mine-1.png" alt=""><span>消息中心</span><div class="i-arrow"><x-icon type="ios-arrow-right" size="20"></x-icon></div></div>
-            <div class="loan-rule" @click="toHelp"><img src="@/assets/img/mine-2.png" alt=""><span>还款帮助</span><div class="i-arrow"><x-icon type="ios-arrow-right" size="20"></x-icon></div></div>
-            <div class="loan-rule" @click="toFeedBack"><img src="@/assets/img/mine-3.png" alt=""><span>意见反馈</span><div class="i-arrow"><x-icon type="ios-arrow-right" size="20"></x-icon></div></div>
-        </div>
-        
     </main>
 </template>
 <script>
+import { XSwitch } from 'vux'
 export default {
     components: {
+        XSwitch 
   },
     data() {
     return {
-    
+        
     };
   },
   methods : {

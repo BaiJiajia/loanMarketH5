@@ -31,17 +31,40 @@ export default new Router({
       component: () => import("./views/loan/quickLoan.vue")
     },
     {
-      // path: "/loanDetail",
-      path: "/mine",
+      path: "/loanDetail",
       name: "loanDetail",
       meta:{ footer:false,title:'贷款详情',showBack:true, },
       component: () => import("./views/loan/loanDetail.vue")
     },
-    // {
-    //   path: "/mine",
-    //   name: "mine",
-    //   meta:{ footer:true,title:'我的',showBack:false,showMineRight:true },
-    //   component: () => import("./views/mine/personalCenter.vue")
-    // },
+    {
+      path: "/mine",
+      name: "mine",
+      meta:{ footer:true,title:'我的',showBack:false,showMineRight:true },
+      component: () => import("./views/mine/personalCenter.vue")
+    },
+    {
+      path: "/messageCenter",
+      name: "messageCenter",
+      meta:{ footer:false,title:'消息中心',showBack:true,showMineRight:false },
+      component: () => import("./views/mine/messageCenter.vue")
+    },
+    {
+      path: "/help",
+      name: "help",
+      meta:{ footer:false,title:'还款帮助',showBack:true,showMineRight:false },
+      component: () => import("./views/mine/help.vue")
+    },
+    {
+      path: "/feedBack",
+      name: "feedBack",
+      meta:{ footer:false,title:'意见反馈',showBack:true,showMineRight:false },
+      component: () => import("./views/mine/feedBack.vue")
+    },
+    {
+      path: "/setting",
+      name: "setting",
+      meta:{ footer:false,title:'设置',showBack:true,showMineRight:false },
+      component: () => import("./views/mine/setting.vue")
+    },
   ]
 });
