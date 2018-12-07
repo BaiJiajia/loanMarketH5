@@ -1,5 +1,17 @@
 <template>
     <div>
+        <popup-header
+            left-text="金额"
+            right-text="排序"
+            title="贷款资质"
+            @click.native="handleOpen"
+        ></popup-header>
+        <div v-transfer-dom>
+            <popup v-model="topSelect" position="top" :show-mask="false">
+                <div>1123</div> 
+                <div>1123</div> 
+            </popup>
+        </div>
         <top-message></top-message>
         <loan-item 
             v-for="item of hot_loan_list" 
@@ -9,13 +21,16 @@
     </div>
 </template>
 <script>
-// import Vue from 'vue'
+import { TransferDom, Popup,PopupHeader } from 'vux'
 import LoanItem from '@/components/LoanItem.vue'
 import TopMessage from '@/components/TopMessage.vue'
 export default {
+    directives: {
+        TransferDom
+    },
     data() {
     return {
-      
+      topSelect:false,
       hot_loan_list:[
           {
               productId:1,
@@ -40,11 +55,13 @@ export default {
     };
   },
   methods : {
-      
+      handleOpen(){
+          this.topSelect = true;
+      }
 
   },
     components: {
-        LoanItem,TopMessage
+        LoanItem,TopMessage,Popup,PopupHeader
     },
 }
 </script>

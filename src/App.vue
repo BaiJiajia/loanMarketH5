@@ -3,7 +3,7 @@
     <x-header 
       :title="$route.meta.title" 
       :left-options="{showBack: $route.meta.showBack}"
-      
+      :class="{white:$route.meta.white}"
     >
       <router-link slot="right" to="/messageCenter" v-show="$route.meta.showIndexRight"><img class="right-icon" src="@/assets/img/bell.png" alt=""></router-link>
       <router-link slot="right" to="/setting" v-show="$route.meta.showMineRight"><img class="right-icon" src="@/assets/img/setting.png" alt=""></router-link>
@@ -46,6 +46,18 @@ export default {
   main{
     margin-top: 46px;
     margin-bottom: 60px
+  }
+  .white{
+    background-color: #ffffff;
+    *{
+      color: #333;
+    }
+    .left-arrow:before{
+      border-color: #333;
+    }
+  }
+  .vux-header-back{
+    display: none;
   }
 }
 </style>
