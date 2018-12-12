@@ -7,5 +7,17 @@ module.exports = {
                 path: 'src/assets/style/theme.less' 
           }], 
       })
-  }
+  },
+  devServer:{
+        proxy:{
+              '/api':{
+                    target:'http://192.168.1.108:9090/api',
+                    changeOrigin:true,
+                    ws:true,
+                    pathRewrite:{
+                          '^/api':''
+                    }
+              }
+        }
+  }
 }

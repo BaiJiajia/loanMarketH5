@@ -18,12 +18,16 @@
             :key="item.productId+'hot'"
             :item='item'
         ></loan-item>
+        <login-dialog :loginShow="loginShow" @changeShow="loginBox"></login-dialog>
     </div>
 </template>
 <script>
 import { TransferDom, Popup,PopupHeader } from 'vux'
 import LoanItem from '@/components/LoanItem.vue'
+import LoginDialog from '@/components/LoginDialog.vue'
 import TopMessage from '@/components/TopMessage.vue'
+import Axios from 'axios'
+import { mapState } from "vuex"
 export default {
     directives: {
         TransferDom
@@ -54,14 +58,29 @@ export default {
       
     };
   },
+  computed:mapState({
+      loginShow:'loginShow'
+  }),
   methods : {
       handleOpen(){
           this.topSelect = true;
+      },
+      loginBox(val){
+        this.$store.commit('openLogin',val);
+      },
+      getLoanList() {
+        //   Axios.post('/api/lmLoanproduct/getLmLoanProductById',{productId:276}).then(res =>{
+        //     alert(res)
+        //   })
       }
 
   },
     components: {
-        LoanItem,TopMessage,Popup,PopupHeader
+        LoanItem,TopMessage,Popup,PopupHeader,LoginDialog
     },
+    mounted(){
+        this.getLoanList()
+    }
+
 }
 </script>

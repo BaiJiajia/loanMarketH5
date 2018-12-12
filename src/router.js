@@ -45,13 +45,13 @@ export default new Router({
     {
       path: "/mine",
       name: "mine",
-      meta:{ footer:true,title:'我的',showBack:false,showMineRight:true },
+      meta:{ footer:true,title:'我的',showBack:false,showMineRight:true,checked:true },
       component: () => import("./views/mine/personalCenter.vue")
     },
     {
       path: "/messageCenter",
       name: "messageCenter",
-      meta:{ footer:false,title:'消息中心',showBack:true,showMineRight:false,white:true },
+      meta:{ footer:false,title:'消息中心',showBack:true,showMineRight:false,white:true,checked:true },
       component: () => import("./views/mine/messageCenter.vue")
     },
     {

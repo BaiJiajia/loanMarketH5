@@ -2,36 +2,37 @@
     <main>
         <div class="group">
             <div class="loan-header">
-                <img src="@/assets/img/i-grid.png" alt="">
-                <div class="loan-name">贷款名称</div>
+                <img :src="loanDetail.productImgUrl" alt="">
+                <div class="loan-name">{{loanDetail.productName}}</div>
             </div>
             <div class="loan-info">
-                <div class="info-box"><span>借款人数</span>1000人</div>
-                <div class="info-box"><span>最快放款</span>3分钟</div>
-                <div class="info-box"><span>贷款范围</span>1000-4000元</div>
-                <div class="info-box"><span>月利率</span>1.9%</div>
+                <div class="info-box"><span>借款人数</span>{{loanDetail.productNum}}人</div>
+                <div class="info-box"><span>最快放款</span>{{loanDetail.lendingrate}}分钟</div>
+                <div class="info-box"><span>贷款范围</span>{{loanDetail.productLimitL}}-{{loanDetail.productLimitH}}元</div>
+                <div class="info-box"><span>{{loanDetail.productRateName}}</span>{{loanDetail.productRate}}</div>
             </div>
         </div>
         <div class="group">
-            <div class="loan-rule"><span>借款金额</span>1万</div>
-            <div class="loan-rule"><span>借款期限</span>20天</div>
-            <div class="loan-rule"><span>每月还款</span>100元</div>
+            <div class="loan-rule"><span>借款金额</span>{{loanDetail.productLimitH}}元</div>
+            <div class="loan-rule"><span>借款期限</span>{{deadlineList.dictLabel}}</div>
+            <div class="loan-rule"><span>每月还款</span></div>
         </div>
         <div class="group">
             <div class="apply-header"><div>申请材料</div></div>
             <div class="apply-box">
-                <div class="apply-item" v-for="(item,index) of applyList" :key="index">
-                    <img :src="item.icon" alt="">
-                    <div>{{item.name}}</div>
+                <div class="apply-item" v-for="(item,index) of loanDetail.lmLoanProductMaterial" :key="index">
+                    <img :src="item.aptitudeImage" alt="">
+                    <div>{{item.aptitudeName}}</div>
                 </div>
             </div>
         </div>
         <div class="btn-box"><div class="applyBtn" @click="handleLogin">立即申请</div></div>
-        <login-dialog :loginShow="loginShow"></login-dialog>
+        <login-dialog :loginShow="loginShow" @changeShow="loginBox"></login-dialog>
     </main>
 </template>
 <script>
 import LoginDialog from '@/components/LoginDialog.vue'
+import Axios from 'axios'
 export default {
     components: {
     LoginDialog
@@ -39,51 +40,38 @@ export default {
     data() {
     return {
         loginShow:false,
-        applyList:[
-            {
-                name:'芝麻信用',
-                icon:require("@/assets/img/1.png")
-            },
-            {
-                name:'微粒贷',
-                icon:require("@/assets/img/2.png")
-            },
-            {
-                name:'身份证',
-                icon:require("@/assets/img/3.png")
-            },
-            {
-                name:'电商验证',
-                icon:require("@/assets/img/4.png")
-            },
-            {
-                name:'手机认证',
-                icon:require("@/assets/img/5.png")
-            },
-            {
-                name:'年龄',
-                icon:require("@/assets/img/6.png")
-            },
-            {
-                name:'社保公积金',
-                icon:require("@/assets/img/7.png")
-            },
-        ]
+        applyList:[],
+        loanDetail:{},
+        deadlineList:[]
+
     };
   },
   methods : {
       handleLogin() {
           this.loginShow = true;
+      },
+      loginBox(val){
+          this.loginShow = val;
+      },
+    //   获取详情
+      getDetail(id){
+        Axios.post('/api/lmLoanproduct/getLmLoanProductById?productId='+id).then(res =>{
+            if(res.data.code==0){
+                this.loanDetail = res.data.data.lmLoanProduct;
+                this.deadlineList = res.data.data.deadlineList[0];
+            }
+        })
       }
   },
-  created(){
-    //   var loanId=this.$route.query.loanId;
+  mounted(){
+      let loanId=this.$route.query.loanId;
+      this.getDetail(loanId)
   }
-    
 }
 </script>
 
 <style lang="less" scoped>
+
     main{
         border-top: 1px solid #e8e8e8;
         .group{

@@ -1,16 +1,16 @@
 <template>
     <div class="loan-item" @click="toDetail(item.productId)">
-        <img :src="item.loanImg" alt="">
+        <img :src="item.productImgUrl" alt="">
         <div class="loan-box">
             <div class="loan-name">{{item.productName}}</div>
             <div class="loan-info">
                 <div class="loan-left">
-                    <div>额度：{{item.productLimit}}元 | 月利率：{{item.productRate}}起</div>
+                    <div>额度：{{item.productLimitL}}-{{item.productLimitH}}元 | {{item.productRateName}}：{{item.productRate}}起</div>
                     <div>征信报告/信用记录...</div>
                 </div>
                 <div class="loan-right">
-                    <div>最快<span>{{item.lendingrate}}</span>下款</div>
-                    <div>借款成功<span>{{item.loanNumber}}</span>人</div>
+                    <div>最快<span>{{item.lendingrate}}分钟</span>下款</div>
+                    <div>借款成功<span>{{item.productNum}}</span>人</div>
                 </div>
             </div>
         </div>

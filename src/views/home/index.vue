@@ -11,22 +11,25 @@
                 <div class="grid-text">极速贷款</div>
             </grid-item>
         </grid>
-        <tab v-model="tabIndex" prevent-default @on-before-index-change="switchTabItem">
-            <tab-item selected>热门贷款</tab-item>
-            <tab-item >最新小贷</tab-item>
-        </tab>
-        <loan-item 
-            v-show="tabShow"
-            v-for="item of hot_loan_list" 
-            :key="item.productId+'hot'"
-            :item='item'
-        ></loan-item>
-        <loan-item 
-            v-show="!tabShow"
-            v-for="item of new_loan_list" 
-            :key="item.productId+'new'"
-            :item='item'
-        ></loan-item>
+        <div>
+            <tab v-model="tabIndex" prevent-default @on-before-index-change="switchTabItem">
+                <tab-item selected>热门贷款</tab-item>
+                <tab-item >最新小贷</tab-item>
+            </tab>
+            <loan-item 
+                v-show="tabShow"
+                v-for="item of hot_loan_list" 
+                :key="item.productId+'hot'"
+                :item='item'
+            ></loan-item>
+            <loan-item 
+                v-show="!tabShow"
+                v-for="item of new_loan_list" 
+                :key="item.productId+'new'"
+                :item='item'
+            ></loan-item>
+        </div>
+        <login-dialog :loginShow="loginShow" @changeShow="loginBox"></login-dialog>
     </div>
     
 </template>
@@ -34,69 +37,66 @@
 <script>
 // import Vue from 'vue'
 import LoanItem from '@/components/LoanItem.vue'
+import LoginDialog from '@/components/LoginDialog.vue'
 import { Swiper,Grid, GridItem, Tab, TabItem } from 'vux'
+import Axios from 'axios'
+import { mapState } from "vuex"
 export default {
     data() {
     return {
-      swiper_list:[
-        {
-            url: 'javascript:',
-            img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vvsr72j20p00gogo2.jpg',
-        },
-        {
-            url: 'javascript:',
-            img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw1k2wj20p00goq7n.jpg',
-        },
-        {
-            url: 'javascript:',
-            img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw50iwj20ff0aaaci.jpg',
-        },   
-      ],
-      hot_loan_list:[
-          {
-              productId:1,
-              loanImg:require('@/assets/img/i-grid.png'),
-              productName:'热小微贷1',
-              productLimit:'1000-2000',
-              lendingrate:'3分钟',
-              loanNumber:1019,//借款成功人数
-              productRate:0.02,
-          },
-          {
-              productId:2,
-              loanImg:require('@/assets/img/i-grid.png'),
-              productName:'热小微贷2',
-              productLimit:'1000-6000',
-              lendingrate:'4分钟',
-              loanNumber:1111,//借款成功人数
-              productRate:0.03,
-          },
-      ],
-      new_loan_list:[
-          {
-              productId:1,
-              loanImg:require('@/assets/img/i-grid.png'),
-              productName:'新小微贷1',
-              productLimit:'1000-2000',
-              lendingrate:'3分钟',
-              loanNumber:1019,//借款成功人数
-              productRate:0.02,
-          },
-          {
-              productId:2,
-              loanImg:require('@/assets/img/i-grid.png'),
-              productName:'新小微贷2',
-              productLimit:'1000-6000',
-              lendingrate:'4分钟',
-              loanNumber:1111,//借款成功人数
-              productRate:0.03,
-          },
-      ],
+      swiper_list:[],
+      hot_loan_list:[],
+      new_loan_list:[],
       tabIndex:0,
       tabShow:true
     };
   },
+  computed:mapState({
+      loginShow:'loginShow'
+  }),
   methods : {
+    loginBox(val){
+        this.$store.commit('openLogin',val);
+    },
+    //   获取热门小贷
+    getHotLoanList() {
+        let pageNum=1;
+        Axios.post('/api/lmLoanproduct/hotLoan?pageNum='+pageNum).then(res =>{
+            if(res.data.code==0){
+                this.hot_loan_list = res.data.data.rows
+            }
+        })
+    },
+    // 获取最新小贷
+    getNewLoanList() {
+        let pageNum=1;
+        Axios.post('/api/lmLoanproduct/newLoan?pageNum='+pageNum).then(res =>{
+            if(res.data.code==0){
+                this.new_loan_list = res.data.data.rows
+            }
+        })
+    },
+    // 获取banner
+    getBannerList() {
+        Axios.post('/api/banner/bannerInfo').then(res =>{
+            if(res.data.code==0){
+                let banners = res.data.data.banners;
+                let bannerList = []
+                for(let banner of banners){
+                    let item = {
+                        url:'',
+                        img:'',
+                        id:''
+                    }
+                    item.url = banner.bannerLinkUrl;
+                    item.img = banner.bannerImgUrl;
+                    item.id = banner.id;
+                    bannerList.push(item);
+                }
+                this.swiper_list = bannerList;
+            }
+        })
+    },
       switchTabItem (index) {
         this.tabIndex = index;
         this.tabShow = !this.tabShow
@@ -109,8 +109,16 @@ export default {
       }
 
   },
+  mounted(){
+      this.getHotLoanList()
+      this.getNewLoanList()
+      
+  },
+  created(){
+      this.getBannerList()
+  },
     components: {
-        Swiper, Grid, GridItem, Tab, TabItem, LoanItem
+        Swiper, Grid, GridItem, Tab, TabItem, LoanItem,LoginDialog
     },
 }
 </script>
@@ -120,6 +128,15 @@ export default {
         .vux-indicator{
             font-size: 0.01rem;
         }
+        .vux-swiper{
+            .vux-swiper-item{
+                .vux-img{
+                    background-size: 100% 100% !important;
+
+                }
+            }
+        }
+
     }
     .weui-grids{
         margin-bottom: 0.2rem;
