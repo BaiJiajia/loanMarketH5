@@ -26,7 +26,7 @@
         </div>
         <top-message></top-message>
         <loan-item 
-            v-for="item of hot_loan_list" 
+            v-for="item of loanList" 
             :key="item.productId+'hot'"
             :item='item'
         ></loan-item>
@@ -49,8 +49,8 @@ export default {
       selIndex1:0,//金额区间
       selIndex2:'',//资质
       selIndex3:1,//排序
-      hot_loan_list:[{}]
-      
+      loanList:[{}],
+      pageNum:1
     };
   },
   computed:mapState({
@@ -119,8 +119,8 @@ export default {
           }
           let sortlimt = this.selIndex3;
           
-          this.request('/api/lmLoanproduct/getInfoByCondition?pageNum=1&atype='+atype+'&sortlimt='+sortlimt+'&productlimitl='+limits[0]+'&productlimith='+limits[1]).then(res =>{
-              this.hot_loan_list = res.data.data.rows;
+          this.request('/api/lmLoanproduct/getInfoByCondition?pageNum='+this.pageNum+'&atype='+atype+'&sortlimt='+sortlimt+'&productlimitl='+limits[0]+'&productlimith='+limits[1]).then(res =>{
+              this.loanList = res.data.data.rows;
           })
       }
   },
@@ -131,6 +131,7 @@ export default {
         this.getLoanList();
         this.getMoneyLimit();
         this.getAptitude();
+        
     }
 }
 </script>

@@ -72,7 +72,9 @@ export default {
         // 手机号注册
         handleRegist(){
             this.request('/api/lmUser/phoneValidate?phone='+this.phone).then(res =>{
-                if(res.data.code==0){
+                if(res.data.code==0){//若账号不存在
+                    this.getValidateCode();
+                }else if(res.data.code==-1){//若账号已存在
                     this.getValidateCode();
                 }
             })

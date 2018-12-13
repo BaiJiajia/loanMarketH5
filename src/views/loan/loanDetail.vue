@@ -26,11 +26,12 @@
                 </div>
             </div>
         </div>
-        <div class="btn-box"><div class="applyBtn" @click="handleLogin">立即申请</div></div>
+        <div class="btn-box"><div class="applyBtn" @click="handleApply">立即申请</div></div>
         <login-dialog :loginShow="loginShow" @changeShow="loginBox"></login-dialog>
     </main>
 </template>
 <script>
+import { mapState } from "vuex"
 import LoginDialog from '@/components/LoginDialog.vue'
 export default {
     components: {
@@ -38,20 +39,28 @@ export default {
   },
     data() {
     return {
-        loginShow:false,
         applyList:[],
         loanDetail:{},
         deadlineList:[]
 
     };
   },
+  computed:mapState({
+      loginShow:'loginShow',
+      token:'token'
+  }),
   methods : {
-      handleLogin() {
-          this.loginShow = true;
+    //   申请贷款
+      handleApply() {
+          if(!this.token){
+              this.$store.commit('openLogin',true);// 先注册或登录
+          }else{
+                // 申请贷款do sth
+          }
       },
       loginBox(val){
-          this.loginShow = val;
-      },
+        this.$store.commit('openLogin',val);
+    },
     //   获取详情
       getDetail(id){
         this.request('/api/lmLoanproduct/getLmLoanProductById?productId='+id).then(res =>{

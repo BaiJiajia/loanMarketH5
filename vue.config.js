@@ -8,7 +8,7 @@ module.exports = {
           }], 
       })
   },
-//   baseUrl:'./',
+  baseUrl:'./',
   devServer:{
         proxy:{
               '/api':{
