@@ -12,7 +12,6 @@
 
 <script>
 import { XTextarea,Toast } from 'vux'
-import Axios from 'axios'
 import { mapState } from "vuex"
 import { setTimeout } from 'timers';
 export default {
@@ -36,7 +35,7 @@ export default {
                 this.message = '请填写内容';
                 this.showPositionValue = true;
             }else{
-                Axios.post('/api/lmAdvise/saveAdvise?token='+this.token+'&adviseContent='+this.adviseContent).then(res =>{
+                this.request('/api/lmAdvise/saveAdvise?token='+this.token+'&adviseContent='+this.adviseContent).then(res =>{
                     if(res.data.code==0){
                         this.message = res.data.message;
                         this.showPositionValue = true;

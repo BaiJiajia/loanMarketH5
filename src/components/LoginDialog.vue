@@ -25,7 +25,6 @@
 
 <script>
 import { XDialog,XButton, XInput,Toast, Group, TransferDomDirective as TransferDom } from 'vux'
-import Axios from 'axios'
 export default {
     directives: {
         TransferDom
@@ -50,7 +49,7 @@ export default {
         // 获取验证码
         getValidateCode(){
             var phone = this.phone;
-            Axios.post('/api/lmUser/getSMS?phone='+phone).then(res =>{
+            this.request('/api/lmUser/getSMS?phone='+phone).then(res =>{
                 if(res.data.code==0){
                     this.message = res.data.message;
                     this.showPositionValue = true;
@@ -72,7 +71,7 @@ export default {
         },
         // 手机号注册
         handleRegist(){
-            Axios.post('/api/lmUser/phoneValidate?phone='+this.phone).then(res =>{
+            this.request('/api/lmUser/phoneValidate?phone='+this.phone).then(res =>{
                 if(res.data.code==0){
                     this.getValidateCode();
                 }
@@ -80,7 +79,7 @@ export default {
         },
         // 登录
         handleLogin(){
-            Axios.post('/api/lmUser/userLogin?phoneCode='+this.phone+'&verifyCode='+this.validate+'&pushid='+this.phone).then(res =>{
+            this.request('/api/lmUser/userLogin?phoneCode='+this.phone+'&verifyCode='+this.validate+'&pushid='+this.phone).then(res =>{
                 if(res.data.code==0){
                     let token = res.data.data.token;
                     this.message = res.data.message;

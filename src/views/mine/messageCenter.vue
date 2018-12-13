@@ -33,7 +33,7 @@ export default {
     methods: {
         //   获取消息列表
         getMessageList() {
-            Axios.post('/api/lmMessage/getLmMessageByUserId?token='+this.token+'&pageNum=1&pageSize=1').then(res =>{
+            this.request('/api/lmMessage/getLmMessageByUserId?token='+this.token+'&pageNum=1&pageSize=1').then(res =>{
                 if(res.data.code==0){
                     let list = res.data.data.rows;
                     for (let item of list){

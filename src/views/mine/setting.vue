@@ -12,6 +12,7 @@
 </template>
 <script>
 import { XSwitch } from 'vux'
+import { mapState } from "vuex"
 export default {
     components: {
         XSwitch 
@@ -22,10 +23,18 @@ export default {
         version:'1.0.9'
     };
   },
+    computed:mapState({
+        token:'token'
+    }),
   methods : {
       logout(){
-          this.$store.commit('removeUserInfo'); //清除用户登录信息
-          this.$router.push({path: '/'});
+          this.request('/api/lmUser/userQuit?token='+this.token,).then(res =>{
+            if(res.data.code==0){
+                this.$store.commit('removeUserInfo'); //清除用户登录信息
+                this.$router.push({path: '/'});
+            }
+        })
+          
       }
   },
   created(){

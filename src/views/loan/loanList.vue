@@ -39,7 +39,6 @@
 import LoanItem from '@/components/LoanItem.vue'
 import LoginDialog from '@/components/LoginDialog.vue'
 import TopMessage from '@/components/TopMessage.vue'
-import Axios from 'axios'
 import { mapState } from "vuex"
 export default {
     data() {
@@ -100,12 +99,12 @@ export default {
         this.$store.commit('openLogin',val);
       },
       getMoneyLimit(){   //获取金额区间
-        Axios.post('/api/lmMoneyLimit/getLmMoneyLimitByList').then(res =>{
+        this.request('/api/lmMoneyLimit/getLmMoneyLimitByList').then(res =>{
             this.MoneyLimitList = res.data.data;
           })
       },
       getAptitude(){   //获取资质列表
-        Axios.post('/api/lmAptitude/selectAll').then(res =>{
+        this.request('/api/lmAptitude/selectAll').then(res =>{
             this.AptitudeList = res.data.data;
           })
       },
@@ -120,11 +119,10 @@ export default {
           }
           let sortlimt = this.selIndex3;
           
-          Axios.post('/api/lmLoanproduct/getInfoByCondition?pageNum=1&atype='+atype+'&sortlimt='+sortlimt+'&productlimitl='+limits[0]+'&productlimith='+limits[1]).then(res =>{
+          this.request('/api/lmLoanproduct/getInfoByCondition?pageNum=1&atype='+atype+'&sortlimt='+sortlimt+'&productlimitl='+limits[0]+'&productlimith='+limits[1]).then(res =>{
               this.hot_loan_list = res.data.data.rows;
           })
       }
-
   },
     components: {
         LoanItem,TopMessage,LoginDialog
@@ -134,7 +132,6 @@ export default {
         this.getMoneyLimit();
         this.getAptitude();
     }
-
 }
 </script>
 

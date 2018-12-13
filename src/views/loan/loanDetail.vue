@@ -32,7 +32,6 @@
 </template>
 <script>
 import LoginDialog from '@/components/LoginDialog.vue'
-import Axios from 'axios'
 export default {
     components: {
     LoginDialog
@@ -55,7 +54,7 @@ export default {
       },
     //   获取详情
       getDetail(id){
-        Axios.post('/api/lmLoanproduct/getLmLoanProductById?productId='+id).then(res =>{
+        this.request('/api/lmLoanproduct/getLmLoanProductById?productId='+id).then(res =>{
             if(res.data.code==0){
                 this.loanDetail = res.data.data.lmLoanProduct;
                 this.deadlineList = res.data.data.deadlineList[0];

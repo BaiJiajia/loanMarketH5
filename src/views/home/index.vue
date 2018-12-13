@@ -39,7 +39,6 @@
 import LoanItem from '@/components/LoanItem.vue'
 import LoginDialog from '@/components/LoginDialog.vue'
 import { Swiper,Grid, GridItem, Tab, TabItem } from 'vux'
-import Axios from 'axios'
 import { mapState } from "vuex"
 export default {
     data() {
@@ -61,7 +60,7 @@ export default {
     //   获取热门小贷
     getHotLoanList() {
         let pageNum=1;
-        Axios.post('/api/lmLoanproduct/hotLoan?pageNum='+pageNum).then(res =>{
+        this.request('/api/lmLoanproduct/hotLoan?pageNum='+pageNum).then(res =>{
             if(res.data.code==0){
                 this.hot_loan_list = res.data.data.rows
             }
@@ -70,7 +69,7 @@ export default {
     // 获取最新小贷
     getNewLoanList() {
         let pageNum=1;
-        Axios.post('/api/lmLoanproduct/newLoan?pageNum='+pageNum).then(res =>{
+        this.request('/api/lmLoanproduct/newLoan?pageNum='+pageNum).then(res =>{
             if(res.data.code==0){
                 this.new_loan_list = res.data.data.rows
             }
@@ -78,7 +77,7 @@ export default {
     },
     // 获取banner
     getBannerList() {
-        Axios.post('/api/banner/bannerInfo').then(res =>{
+        this.request('/api/banner/bannerInfo').then(res =>{
             if(res.data.code==0){
                 let banners = res.data.data.banners;
                 let bannerList = []

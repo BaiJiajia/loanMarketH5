@@ -24,12 +24,11 @@ export default {
   methods : {
     getLoanList() {
         let pageNum=1;
-        Axios.post('/api/lmLoanproduct/topLoan?pageNum='+pageNum,).then(res =>{
+        this.request('/api/lmLoanproduct/topLoan?pageNum='+pageNum,).then(res =>{
             if(res.data.code==0){
                 this.loan_list = res.data.data.rows
             }
           })
-
     }  
 
   },

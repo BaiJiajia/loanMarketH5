@@ -12,7 +12,6 @@
 // import Vue from 'vue'
 import LoanItem from '@/components/LoanItem.vue'
 import TopMessage from '@/components/TopMessage.vue'
-import Axios from 'axios'
 export default {
     data() {
     return {
@@ -23,7 +22,7 @@ export default {
   methods : {
     getLoanList() {
         let pageNum=1;
-        Axios.post('/api/lmLoanproduct/fastLoan?pageNum='+pageNum,).then(res =>{
+        this.request('/api/lmLoanproduct/fastLoan?pageNum='+pageNum,).then(res =>{
             if(res.data.code==0){
                 this.loan_list = res.data.data.rows
             }
