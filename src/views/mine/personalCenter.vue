@@ -3,12 +3,12 @@
         <div class="group">
             <div class="info-header">
                 <img src="@/assets/img/i-grid.png" alt="">
-                <div class="user-name">您还没有登录呢</div>
+                <div class="user-name">{{userName}}</div>
             </div>
         </div>
         <div class="group">
             <div class="loan-rule" @click="toMessageCenter"><img src="@/assets/img/mine-1.png" alt=""><span>消息中心</span><div class="i-arrow"><x-icon type="ios-arrow-right" size="20"></x-icon></div></div>
-            <div class="loan-rule" @click="toHelp"><img src="@/assets/img/mine-2.png" alt=""><span>还款帮助</span><div class="i-arrow"><x-icon type="ios-arrow-right" size="20"></x-icon></div></div>
+            <!-- <div class="loan-rule" @click="toHelp"><img src="@/assets/img/mine-2.png" alt=""><span>还款帮助</span><div class="i-arrow"><x-icon type="ios-arrow-right" size="20"></x-icon></div></div> -->
             <div class="loan-rule" @click="toFeedBack"><img src="@/assets/img/mine-3.png" alt=""><span>意见反馈</span><div class="i-arrow"><x-icon type="ios-arrow-right" size="20"></x-icon></div></div>
         </div>
         
@@ -20,21 +20,26 @@ export default {
   },
     data() {
     return {
-    
+        userName:''
     };
   },
   methods : {
       toMessageCenter() {
           this.$router.push({path: '/messageCenter'});
       },
-      toHelp() {
-          this.$router.push({path: '/help'});
-      },
+    //   toHelp() {
+    //       this.$router.push({path: '/help'});
+    //   },
       toFeedBack() {
           this.$router.push({path: '/feedBack'});
       },
+      getUserName(){
+          let name = localStorage.getItem('userName');
+          this.userName = name ? name : '您还没有登录呢';
+      }
   },
-  created(){
+  mounted(){
+      this.getUserName()
   }
     
 }

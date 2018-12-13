@@ -1,12 +1,12 @@
 <template>
     <div>
         <div class="loan-item" v-for="item of messageList" :key="item.msgId">
-            <img :src="item.msgImg" alt="">
+            <img :src="msgImg" alt="">
             <div class="loan-box">
                 <div class="loan-info">
                     <div class="info-top">
                         <div class="info-title">{{item.msgTitle}}</div>
-                        <div class="info-time">{{item.time}}</div>
+                        <div class="info-time">{{item.creattime}}</div>
                     </div>
                     <div class="info-content">{{item.msgContent}}</div>
                 </div>
@@ -17,40 +17,37 @@
 </template>
 
 <script>
+import Axios from 'axios'
+import { mapState } from "vuex"
 export default {
     name: 'LoanItem',
     data() {
         return {
-            messageList:[
-                {
-                    msgId:0,
-                    msgTitle:'系统消息1',
-                    time:'2018/10/13',
-                    msgContent:'额度：111元 | 月利率：111起',
-                    msgImg:require("@/assets/img/notice.png")
-                },
-                {
-                    msgId:1,
-                    msgTitle:'系统消息2',
-                    time:'2018/10/11',
-                    msgContent:'额度：111元 | 月利率：111起',
-                    msgImg:require("@/assets/img/notice.png")
-                },
-                {
-                    msgId:2,
-                    msgTitle:'系统消息3',
-                    time:'2018/10/12',
-                    msgContent:'额度：111元 | 月利率：111起',
-                    msgImg:require("@/assets/img/notice.png")
-                }
-            ]
+            msgImg:require("@/assets/img/notice.png"),
+            messageList:[]
         };
     },
-    
+    computed:mapState({
+        token:'token'
+    }),
     methods: {
-        
+        //   获取消息列表
+        getMessageList() {
+            Axios.post('/api/lmMessage/getLmMessageByUserId?token='+this.token+'&pageNum=1&pageSize=1').then(res =>{
+                if(res.data.code==0){
+                    let list = res.data.data.rows;
+                    for (let item of list){
+                        item.creattime = item.creattime.slice(0,10)
+                    }
+                    this.messageList = list;
+                }
+            })
+        },
+    },
+    mounted(){
+        this.getMessageList()
     }
-
+    
 }
 </script>
 
@@ -94,6 +91,9 @@ export default {
                 }
             }
         }
+    }
+    .loan-item:first-of-type{
+        border-top: 1px solid #e5e5e5;
     }
 </style>
 

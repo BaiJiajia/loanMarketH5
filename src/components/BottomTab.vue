@@ -1,5 +1,5 @@
 <template>
-    <tabbar>
+    <tabbar ref="tabbar" @on-before-index-change="changeHandler">
         <tabbar-item v-for="(item,index) of tabs" :selected="$route.path===item.link" :key="index" :link="item.link">
             <img slot="icon" :src="item.icon">
             <img slot="icon-active" :src="item.activeIcon">
@@ -40,6 +40,14 @@ export default {
         Tabbar,
         TabbarItem
     },
+    methods: {
+        changeHandler(index) {
+            this.$router.push(this.tabs[index].link)
+        }
+    },
+    mounted() {
+        this.$refs.tabbar.preventDefault = true
+    }
 }
 </script>
 

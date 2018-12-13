@@ -2,29 +2,55 @@
     <main>
         <div class="fd-title">请描述具体问题</div>
         <div class="group">
-            <x-textarea :max="200" name="description" placeholder="请描述下您出现的问题场景，便于我们更好的为您解决问题"></x-textarea>
+            <x-textarea v-model="adviseContent" :max="200" name="description" placeholder="请描述下您出现的问题场景，便于我们更好的为您解决问题"></x-textarea>
         </div>
         <div class="btn-box"><div class="applyBtn" @click="handleSubmit">提交</div></div>
+        <toast v-model="showPositionValue" type="text" :time="1500" is-show-mask :text="message" position="middle"></toast>
     </main>
     
 </template>
 
 <script>
-import { XTextarea } from 'vux'
+import { XTextarea,Toast } from 'vux'
+import Axios from 'axios'
+import { mapState } from "vuex"
+import { setTimeout } from 'timers';
 export default {
     name: 'LoanItem',
     components: {
-        XTextarea
+        XTextarea,Toast
     },
     data() {
         return {
-            
+            adviseContent:'',
+            showPositionValue:false,
+            message:''
         };
     },
-    
+    computed:mapState({
+        token:'token'
+    }),
     methods: {
         handleSubmit() {
-
+            if(this.adviseContent==''){
+                this.message = '请填写内容';
+                this.showPositionValue = true;
+            }else{
+                Axios.post('/api/lmAdvise/saveAdvise?token='+this.token+'&adviseContent='+this.adviseContent).then(res =>{
+                    if(res.data.code==0){
+                        this.message = res.data.message;
+                        this.showPositionValue = true;
+                        setTimeout(() => {   //此处必须用箭头函数，如果用以往的function,this指向会改为 window  --from SamLi
+                            this.$router.push({path: '/mine'});
+                        },1000)
+                        
+                        
+                    }
+                })
+            }
+            
+            
+    
         }
     }
 

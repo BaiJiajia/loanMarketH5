@@ -3,7 +3,10 @@
         <div class="group">
             <div class="loan-rule" ><span>关于我们</span><div class="i-arrow"><x-icon type="ios-arrow-right" size="20"></x-icon></div></div>
             <x-switch title="推送消息" v-model="acceptMessage"></x-switch>
-            <div class="loan-rule" ><span>意见反馈</span><div class="i-arrow">{{version}}</div></div>
+            <div class="loan-rule" ><span>当前版本</span><div class="i-arrow">{{version}}</div></div>
+        </div>
+        <div class="group">
+            <div class="logout" @click="logout">退出登录</div>
         </div>
     </main>
 </template>
@@ -20,7 +23,10 @@ export default {
     };
   },
   methods : {
-      
+      logout(){
+          this.$store.commit('removeUserInfo'); //清除用户登录信息
+          this.$router.push({path: '/'});
+      }
   },
   created(){
   }
@@ -28,6 +34,13 @@ export default {
 }
 </script>
 <style lang="less">
+.logout{
+    height: 1rem;
+    line-height: 1rem;
+    text-align: center;
+    color: @theme-color;
+    font-size: 0.32rem;
+}
 .vux-x-switch{
     overflow: hidden;
     box-sizing: border-box;

@@ -6,16 +6,22 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     token: localStorage.token || null,
-    loginShow:false
+    loginShow:false,
+    userName:''
   },
   mutations: {
     setToken(state,value){
         state.token = value;
         localStorage.setItem("token",value)
     },
-    removeToken(state) {
+    setuserName(state,value){
+        state.userName = value;
+        localStorage.setItem("userName",value)
+    },
+    removeUserInfo(state) {
         state.token = null;
-        localStorage.removeItem("token");
+        state.userName = '';
+        localStorage.clear();
     },
     openLogin(state,val){
         state.loginShow = val;

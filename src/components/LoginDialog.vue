@@ -7,12 +7,14 @@
             <div class="loginBox">
                 <div class="loginTitle">快速登录</div>
                 <group>
-                    <x-input v-model="phone" class="input1" placeholder="请输入手机号码" mask="99999999999"  :max="11" is-type="china-mobile"></x-input>
-                    <x-input v-model="validate" placeholder="请输入验证码" :show-clear="false" type="number">
+                    <x-input v-model="phone" class="input1" placeholder="请输入手机号码" mask="99999999999"  :max="11" is-type="china-mobile" type="tel"></x-input>
+                    <!-- {{validate}} -->
+                    <x-input v-model="validate" placeholder="请输入验证码" :show-clear="false" :max="6" type="tel">
                         <x-button v-show="sendAuthCode" @click.native="handleRegist" slot="right"  mini>发送验证码</x-button>
                         <x-button v-show="!sendAuthCode" slot="right"  mini>{{auth_time}}秒后重新发送</x-button>
                     </x-input>
                 </group>
+                <!-- <input type='hidden' > -->
                 <div class="btn-box"><div class="applyBtn" @click="handleLogin">登录</div></div>
                 <div class="bottomWord">登录即代表同意<a href="javascript:;">《用户协议》</a></div>
             </div>
@@ -33,7 +35,7 @@ export default {
         return {
             showHideOnBlur: this.loginShow,
             phone:'',
-            validate:'',
+            validate:null,
             message:'',
             showPositionValue:false,
             sendAuthCode:true,
@@ -84,8 +86,8 @@ export default {
                     this.message = res.data.message;
                     this.showPositionValue = true;
                     this.showHideOnBlur = false;
-                    localStorage.setItem("token",token);
-                    this.$store.commit('setToken',token);  //使用mutation将token存入localstorage和store的state中
+                    this.$store.commit('setToken',token);  //使用mutation将token和username存入localstorage和store的state中
+                    this.$store.commit('setuserName',this.phone);
                 }
             })
         }
@@ -133,6 +135,12 @@ export default {
         }
         .weui-cells{
             font-size: 0.24rem;
+            .weui-input::-webkit-inner-spin-button{
+                -webkit-appearance: none !important;
+            }
+            .weui-input::-webkit-outer-spin-button{
+                -webkit-appearance: none !important;
+            }
         }
         .weui-cells:before{
             border: none;
