@@ -1,4 +1,5 @@
 <template>
+<div>
     <div v-transfer-dom>
         <x-dialog v-model="showHideOnBlur" class="dialog-demo" hide-on-blur>
             <div class="closeBox" @click="showHideOnBlur=false">
@@ -21,6 +22,7 @@
             <toast v-model="showPositionValue" type="text" :time="1500" is-show-mask :text="message" position="middle"></toast>
         </x-dialog>
     </div>
+</div>
 </template>
 
 <script>

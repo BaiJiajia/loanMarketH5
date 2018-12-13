@@ -111,11 +111,11 @@ export default {
       getLoanList() {
           let atype = this.selIndex2;
           let limits = [];
-          this.selIndex1 = this.selIndex1.toString();
-        if(this.selIndex1.indexOf('-') != -1){
-            limits = this.selIndex1.split('-');
+          let limitsNum = this.selIndex1.toString();
+        if(limitsNum.indexOf('-') != -1){
+            limits = limitsNum.split('-');
           }else{
-            limits = [this.selIndex1,'']
+            limits = [limitsNum,'']
           }
           let sortlimt = this.selIndex3;
           
