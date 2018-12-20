@@ -63,7 +63,7 @@ export default {
         getAuthCode:function () {
             this.sendAuthCode = false;
             this.auth_time = 60;
-            let auth_timetimer =  setInterval(()=>{
+            let auth_timetimer =  setInterval(()=>{//这里只能用箭头函数，用function的话，this会指向window
                 this.auth_time--;
                 if(this.auth_time<=0){
                     this.sendAuthCode = true;

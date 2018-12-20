@@ -8,11 +8,11 @@ module.exports = {
           }], 
       })
   },
-  baseUrl:'./',
+//   baseUrl:'./',
   devServer:{
         proxy:{
               '/api':{
-                    target:'http://192.168.1.108:9090/api',
+                    target:'http://192.168.1.131:9090/api',
                     changeOrigin:true,
                     ws:true,
                     pathRewrite:{

@@ -29,17 +29,13 @@
                 :item='item'
             ></loan-item>
         </div>
-        <login-dialog :loginShow="loginShow" @changeShow="loginBox"></login-dialog>
     </div>
-    
 </template>
 
 <script>
 // import Vue from 'vue'
 import LoanItem from '@/components/LoanItem.vue'
-import LoginDialog from '@/components/LoginDialog.vue'
 import { Swiper,Grid, GridItem, Tab, TabItem } from 'vux'
-import { mapState } from "vuex"
 export default {
     data() {
     return {
@@ -50,13 +46,7 @@ export default {
       tabShow:true
     };
   },
-  computed:mapState({
-      loginShow:'loginShow'
-  }),
   methods : {
-    loginBox(val){
-        this.$store.commit('openLogin',val);
-    },
     //   获取热门小贷
     getHotLoanList() {
         let pageNum=1;
@@ -117,7 +107,7 @@ export default {
       this.getBannerList()
   },
     components: {
-        Swiper, Grid, GridItem, Tab, TabItem, LoanItem,LoginDialog
+        Swiper, Grid, GridItem, Tab, TabItem, LoanItem
     },
 }
 </script>

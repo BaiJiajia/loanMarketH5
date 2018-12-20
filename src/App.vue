@@ -9,18 +9,30 @@
       <router-link slot="right" to="/setting" v-show="$route.meta.showMineRight"><img class="right-icon" src="@/assets/img/setting.png" alt=""></router-link>
     </x-header>
     <main><router-view/></main>
+    <login-dialog :loginShow="loginShow" @changeShow="loginBox"></login-dialog>
     <bottom-tab v-if="$route.meta.footer"></bottom-tab>
   </div>
 </template>
 
 <script>
 import BottomTab from './components/BottomTab.vue'
+import LoginDialog from '@/components/LoginDialog.vue'
 import { XHeader } from 'vux'
+import { mapState } from "vuex"
 export default {
   name: 'app',
   components: {
     XHeader,
-    BottomTab
+    BottomTab,
+    LoginDialog
+  },
+  computed:mapState({
+      loginShow:'loginShow'
+  }),
+  methods : {
+    loginBox(val){
+        this.$store.commit('openLogin',val);
+    },
   }
 }
 </script>

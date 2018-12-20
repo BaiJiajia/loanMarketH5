@@ -27,19 +27,16 @@
         <top-message></top-message>
         <loan-item 
             v-for="item of loanList" 
-            :key="item.productId+'hot'"
+            :key="item.productId"
             :item='item'
         ></loan-item>
-        <login-dialog :loginShow="loginShow" @changeShow="loginBox"></login-dialog>
         <!-- 蒙版阴影 -->
         <div @click="hideSelect" :class="{shadow:curIndex==1||curIndex==2||curIndex==3}" ></div>
     </div>
 </template>
 <script>
 import LoanItem from '@/components/LoanItem.vue'
-import LoginDialog from '@/components/LoginDialog.vue'
 import TopMessage from '@/components/TopMessage.vue'
-import { mapState } from "vuex"
 export default {
     data() {
     return {
@@ -49,13 +46,10 @@ export default {
       selIndex1:0,//金额区间
       selIndex2:'',//资质
       selIndex3:1,//排序
-      loanList:[{}],
+      loanList:[],
       pageNum:1
     };
   },
-  computed:mapState({
-      loginShow:'loginShow'
-  }),
   watch:{
       //金额区间筛选
       selIndex1:function(newVal){
@@ -95,9 +89,6 @@ export default {
           this.selIndex3= id;
           this.curIndex = 0;
       },
-      loginBox(val){
-        this.$store.commit('openLogin',val);
-      },
       getMoneyLimit(){   //获取金额区间
         this.request('/api/lmMoneyLimit/getLmMoneyLimitByList').then(res =>{
             this.MoneyLimitList = res.data.data;
@@ -125,7 +116,7 @@ export default {
       }
   },
     components: {
-        LoanItem,TopMessage,LoginDialog
+        LoanItem,TopMessage
     },
     mounted(){
         this.getLoanList();
